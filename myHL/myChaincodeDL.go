@@ -105,7 +105,7 @@ type User struct {
 
 
 
-func (self *User) init(userID string, password string, status string, roles string) error {
+func (self *User) init(userID string, password string, roles string, status string) error {
 	self.UserID = userID
 	self.Status = status
 	self.Password = password

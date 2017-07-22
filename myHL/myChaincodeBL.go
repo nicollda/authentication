@@ -144,10 +144,7 @@ func (t *ChaincodeBusinessLayer) authenticate(userID string, password string) ([
 	}
 
 	return nil, nil   
-	
-	
-	
-	return []byte("[\"Button1\",\"Button2\"]"), nil
+	//return []byte("[\"Button1\",\"Button2\"]"), nil
 }
 
 
