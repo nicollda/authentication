@@ -124,10 +124,14 @@ func (t *ChaincodeBusinessLayer) authenticate(userID string, password string) ([
 	
 	var Password []byte
 	var err error
-
+	var user User
+	
+	user.Password = "Password1"
+	user.Roles = "[\"Button1\",\"Button2\"]"
 
 	Password, _ = t.encrypt(password)
-	user, err := t.userRep.getUser(userID)
+//	user, err := t.userRep.getUser(userID)
+
 	if err != nil {
 		return nil, errors.New("Failed to get state")
 	}
