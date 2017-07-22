@@ -130,7 +130,7 @@ func (t *ChaincodeBusinessLayer) authenticate(userID string, password string) ([
 	user.Roles = "[\"Button1\",\"Button2\"]"
 
 	Password, _ = t.encrypt(password)
-	user, err = t.userRep.getFirstUser() //userID)
+	user, err = t.userRep.getUser(userID)
 
 	return []byte("[\"Button1\",\"Button2\"]"), nil
 	
