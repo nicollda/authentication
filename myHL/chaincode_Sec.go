@@ -134,11 +134,16 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 }
 
 func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
-	if function != "query" {
-		return nil, errors.New("Invalid query function name. Expecting \"query\"")
+	// Handle different functions
+	if function == "authenticate" {
+		fmt.Printf("Function is authenticate")
+		return t.authenticate(stub, args)
+	} else if function == "init" {
+		fmt.Printf("Function is init")
+		return t.Init(stub, function, args)
 	}
-	
-	return nil, nil
+
+	return nil, errors.New("Received unknown function invocation")
 }	
 	
 
