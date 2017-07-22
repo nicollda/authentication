@@ -23,80 +23,33 @@ package main
 import (
 	"errors"
 	"fmt"
-	"bytes"
-	//"strconv"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
 
 // SimpleChaincode example simple Chaincode implementation
 type SimpleChaincode struct {
+	bl ChaincodeBusinessLayer
 }
 
 func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	fmt.Printf("Init called, initializing chaincode")
 	
-
-//	if len(args) != 4 {
-//		return nil, errors.New("Incorrect number of arguments. Expecting 4")
-//	}
-
-/*
-
-	Aval, err = strconv.Atoi(args[1])
-
-	// Write the state to the ledger
-	err = stub.PutState(A, []byte(strconv.Itoa(Aval)))
+	
+	//initialize our repositories
+	t.bl.initObjects(stub)
+	
+	t.bl.writeOut("in init")
+	
+	_, err := t.bl.registerUser("David", "Password1", "[\"Button1\",\"Button2\"]")
 	if err != nil {
 		return nil, err
 	}
 
-	err = stub.PutState(B, []byte(strconv.Itoa(Bval)))
-	if err != nil {
-		return nil, err
-	}
-*/
 	return nil, nil
 }
 
 
-func (t *SimpleChaincode) encrypt(pwd string) ([]byte, error) {
-
-	return []byte(pwd), nil
-}
-
-func (t *SimpleChaincode) authenticate(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-	fmt.Printf("Running invoke")
-	
-	var User string
-	var Password, Avalbytes []byte
-	var err error
-
-	if len(args) != 2 {
-		return nil, errors.New("Incorrect number of arguments. Expecting 2")
-	}
-
-	User = args[0]
-	User = User
-	Password, _ = t.encrypt(args[1])
-	
-	Avalbytes, err = t.encrypt(args[1])		//included to make the password always match 
-	//Avalbytes, err = stub.GetState(User)
-	if err != nil {
-		return nil, errors.New("Failed to get state")
-	}
-	if Avalbytes == nil {
-		return nil, errors.New("Entity not found")
-	}
-	
-	if bytes.Equal(Avalbytes, Password) {
-		return []byte("[\"Button1\",\"Button2\"]"), nil
-	} else {
-		return nil, nil
-	}
-
-	return []byte("[\"Button1\",\"Button2\"]"), nil   // should be changed to nil, nil when the password part is done
-}
 
 // Deletes an entity from state
 func (t *SimpleChaincode) delete(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
@@ -124,7 +77,11 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 	// Handle different functions
 	if function == "authenticate" {
 		fmt.Printf("Function is authenticate")
-		return t.authenticate(stub, args)
+		if len(args) != 2 {
+			return nil, errors.New("Incorrect number of arguments. Expecting 2")
+		}
+		
+		return t.bl.authenticate(args[0], args[1])
 	} else if function == "init" {
 		fmt.Printf("Function is init")
 		return t.Init(stub, function, args)
@@ -137,7 +94,12 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	// Handle different functions
 	if function == "authenticate" {
 		fmt.Printf("Function is authenticate")
-		return t.authenticate(stub, args)
+		
+		if len(args) != 2 {
+			return nil, errors.New("Incorrect number of arguments. Expecting 2")
+		}
+				
+		return t.bl.authenticate(args[0], args[1])
 	} else if function == "init" {
 		fmt.Printf("Function is init")
 		return t.Init(stub, function, args)
