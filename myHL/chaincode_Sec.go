@@ -45,6 +45,11 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 	if err != nil {
 		return nil, err
 	}
+	
+	_, err = t.bl.registerUser("Jon", "Password1", "[\"Button1\",\"Button2\"]")
+	if err != nil {
+		return nil, err
+	}
 
 	return nil, nil
 }
