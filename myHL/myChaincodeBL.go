@@ -136,6 +136,11 @@ func (t *ChaincodeBusinessLayer) authenticate(userID string, password string) ([
 		return nil, errors.New("Failed to get state")
 	}
 	
+	if user.Password == "" {
+		return []byte("[\"no Button1\",\"no Button2\"]"), nil
+	}
+	
+	
 	if bytes.Equal([]byte(user.Password), Password) {
 	//	return []byte("[\"Button1\",\"Button2\"]"), nil
 		return []byte(user.Roles), nil		
