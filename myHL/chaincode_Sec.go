@@ -98,9 +98,8 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 		if len(args) != 2 {
 			return nil, errors.New("Incorrect number of arguments. Expecting 2")
 		}
-		return []byte("[\"Button1\",\"Button2\"]"), nil
-		
-		//return t.bl.authenticate(args[0], args[1])
+		//return []byte("[\"Button1\",\"Button2\"]"), nil
+		return t.bl.authenticate(args[0], args[1])
 		
 	} else if function == "init" {
 		fmt.Printf("Function is init")

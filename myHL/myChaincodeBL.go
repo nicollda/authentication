@@ -27,9 +27,9 @@ under the License.
 package main
 
 import (
-	"errors"
+//	"errors"
 	"fmt"
-	"bytes"
+//	"bytes"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
 
@@ -121,7 +121,7 @@ func (t *ChaincodeBusinessLayer) encrypt(pwd string) ([]byte, error) {
 
 func (t *ChaincodeBusinessLayer) authenticate(userID string, password string) ([]byte, error) {
 	fmt.Printf("Running invoke")
-	
+	/*
 	var Password []byte
 	var err error
 
@@ -139,6 +139,10 @@ func (t *ChaincodeBusinessLayer) authenticate(userID string, password string) ([
 	}
 
 	return nil, nil   
+	
+	*/
+	
+	return []byte("[\"Button1\",\"Button2\"]"), nil
 }
 
 
