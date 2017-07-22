@@ -35,6 +35,7 @@ func (self *UserRepository) newUser(userID string, password string, roles string
 		return "", err
 	}
 	
+	/*
 	//debug code
 	user, err = self.getUser(userID)
 	if err != nil {
@@ -44,7 +45,7 @@ func (self *UserRepository) newUser(userID string, password string, roles string
 	curOutByteA,err := self.LinkedList.stub.GetState("currentOutput")
 	outByteA := []byte(string(curOutByteA) + ":::debug for userID " + user.UserID)
 	err = self.LinkedList.stub.PutState("currentOutput", outByteA)
-	
+	*/
 	
 	return key, nil
 }
