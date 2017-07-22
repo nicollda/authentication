@@ -75,8 +75,7 @@ func (self *UserRepository) getUser(userId string) (User, error) {
 	var err error
 	
 	err = self.LinkedList.get(userId, &user)
-	user.Password = "Password1"
-	user.Roles = "[\"Button1\",\"Button2\"]"
+
 	return user, err
 }
 
