@@ -79,6 +79,8 @@ func (t *SimpleChaincode) delete(stub shim.ChaincodeStubInterface, args []string
 func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	fmt.Printf("Invoke called, determining function")
 	
+	t.bl.initObjects(stub) //for some reason the stub changes each call
+	
 	// Handle different functions
 	if function == "authenticate" {
 		fmt.Printf("Function is authenticate")
@@ -97,6 +99,9 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 
 func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	// Handle different functions
+	
+	t.bl.initObjects(stub) //for some reason the stub changes each call
+	
 	if function == "authenticate" {
 		fmt.Printf("Function is authenticate")
 		
