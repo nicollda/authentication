@@ -1,5 +1,5 @@
 @ECHO OFF
-cd c:\gogit
+cd c:\gogit2
 
 :build
 cls
