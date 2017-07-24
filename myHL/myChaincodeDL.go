@@ -106,6 +106,12 @@ type User struct {
 	Roles		string	`json:"roles"`
 }
 
+type Role struct {
+	RoleID string `json:"roleID"`
+	Status string `json:"status"`
+	Name string `json:"name"`
+}
+
 
 
 func (self *User) init(userID string, password string, roles string, status string) error {
@@ -113,6 +119,14 @@ func (self *User) init(userID string, password string, roles string, status stri
 	self.Status = status
 	self.Password = password
 	self.Roles = roles
-	
+
 	return nil
 }
+
+func (self *Role) init(roleID string, status string, name string) error {
+	self.RoleID = roleID
+	self.Status = status
+	self.Name = name
+
+	return nil
+} 
