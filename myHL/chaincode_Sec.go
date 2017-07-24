@@ -41,7 +41,30 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 	
 	t.bl.writeOut("in init")
 	
-	_, err := t.bl.registerUser("David", "Password1", "[\"Button3\",\"Button4\"]")
+	
+	_, err := t.bl.registerRole("r1", "Button1")
+	if err != nil {
+		return nil, err
+	}
+	
+
+	_, err = t.bl.registerRole("r2", "Button2")
+	if err != nil {
+		return nil, err
+	}	
+	
+		_, err = t.bl.registerRole("r3", "Button3")
+	if err != nil {
+		return nil, err
+	}	
+	
+		_, err = t.bl.registerRole("r4", "Button4")
+	if err != nil {
+		return nil, err
+	}	
+	
+	
+	_, err = t.bl.registerUser("David", "Password1", "[\"Button3\",\"Button4\"]")
 	if err != nil {
 		return nil, err
 	}

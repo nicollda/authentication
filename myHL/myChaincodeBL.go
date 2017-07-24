@@ -39,6 +39,7 @@ const roleIndex =		"RoleIndex" + separator
 
 type ChaincodeBusinessLayer struct {
 	userRep			UserRepository 
+	roleRep			RoleRepository
 	stub shim.ChaincodeStubInterface
 }
 
@@ -49,6 +50,7 @@ func (t *ChaincodeBusinessLayer) initObjects(stub shim.ChaincodeStubInterface) e
 	
 	//initialize our repositories
 	t.userRep.init(stub)
+	t.roleRep.init(stub)
 	
 	return nil
 }
@@ -106,6 +108,20 @@ func (t *ChaincodeBusinessLayer) registerUser(userID string, password string, ro
 	//need to make sure the user is not already registered
 	
 	index, err := t.userRep.newUser(userID, password, roles, "Active")
+	if err != nil {
+		return nil, err
+	}
+	
+	return []byte(index), nil
+}
+
+
+// register role
+func (t *ChaincodeBusinessLayer) registerRole(roleID string, name string) ([]byte, error) {
+	fmt.Printf("Running registerRole")
+	//need to make sure the user is not already registered
+	
+	index, err := t.roleRep.newRole(roleID, name, "Active")
 	if err != nil {
 		return nil, err
 	}
