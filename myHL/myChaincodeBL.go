@@ -152,7 +152,7 @@ func (t *ChaincodeBusinessLayer) authenticate(userID string, password string) ([
 	}
 	
 	if user.Password == "" {
-		return []byte("[\"no Buttons\"]"), nil
+		return nil, nil
 	}
 	
 	
