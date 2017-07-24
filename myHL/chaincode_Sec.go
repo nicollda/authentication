@@ -125,7 +125,7 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	
 	t.bl.initObjects(stub) //for some reason the stub changes each call
 	
-	if function == "Button 1" {
+	if function == "button1" {
 		fmt.Printf("Function is authenticate")
 		
 		if len(args) != 1 {
