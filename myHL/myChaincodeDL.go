@@ -229,7 +229,7 @@ type Role struct {
 }
 
 
-func (self *Role) init(roleID string, status string, name string) error {
+func (self *Role) init(roleID string, name string, status string) error {
 	self.RoleID = roleID
 	self.Status = status
 	self.Name = name
