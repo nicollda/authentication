@@ -178,11 +178,20 @@ func (t *ChaincodeBusinessLayer) getRoles(user User) ([]byte, error) {
 		return nil, errors.New("Failed to get state")
 	}
 	
-	for _, role := range roleArray {
-		roleOut = roleOut + ", " + role
+	for _, roleID := range roleArray {
+		role, err := t.roleRep.getRole(roleID)
+		if err != nil {
+			return nil, errors.New("Failed to get state")
+		}
+	
+		if roleOut == "" {
+			roleOut = role.Name
+		} else {
+			roleOut = roleOut + ", " + role.Name
+		}
 	}
 	
-	return []byte(roleOut), nil	
+	return []byte("[" + roleOut + "]"), nil	
 }
 
 
