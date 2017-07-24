@@ -140,7 +140,7 @@ func (t *ChaincodeBusinessLayer) authenticate(userID string, password string) ([
 	
 	
 	if bytes.Equal([]byte(user.Password), Password) {
-		return []byte(user.Roles), nil		
+		return t.getRoles(user)
 	} else {
 		return nil, nil
 	}
@@ -148,6 +148,10 @@ func (t *ChaincodeBusinessLayer) authenticate(userID string, password string) ([
 	return nil, nil   
 }
 
+
+func (t *ChaincodeBusinessLayer) getRoles(user User) ([]byte, error) {
+	return []byte(user.Roles), nil	
+}
 
 
 
