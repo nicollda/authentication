@@ -191,7 +191,7 @@ func (self *RoleRepository) deleteRole(roleID string) error {
 type User struct {
 	UserID		string	`json:"userID"`
 	Status		string	`json:"status"`
-	Password	string	`json:"ballance"`
+	Password	string	`json:"password"`
 	Roles		string	`json:"roles"`
 }
 
