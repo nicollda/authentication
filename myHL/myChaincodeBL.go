@@ -185,9 +185,9 @@ func (t *ChaincodeBusinessLayer) getRoles(user User) ([]byte, error) {
 		}
 	
 		if roleOut == "" {
-			roleOut = role.Name
+			roleOut = "\"" + role.Name + "\""
 		} else {
-			roleOut = roleOut + ", " + role.Name
+			roleOut = roleOut + ", \"" + role.Name + "\""
 		}
 	}
 	
