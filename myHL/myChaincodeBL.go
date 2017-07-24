@@ -30,6 +30,7 @@ import (
 	"errors"
 	"fmt"
 	"bytes"
+	"encoding/json"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
 
@@ -166,7 +167,22 @@ func (t *ChaincodeBusinessLayer) authenticate(userID string, password string) ([
 
 
 func (t *ChaincodeBusinessLayer) getRoles(user User) ([]byte, error) {
-	return []byte(user.Roles), nil	
+	var roleArray []string
+	var roleOut string
+	
+	rolejson := user.Roles
+	roleOut = ""
+	
+	err := json.Unmarshal([]byte(rolejson), &roleArray) 
+	if err != nil {
+		return nil, errors.New("Failed to get state")
+	}
+	
+	for _, role := range roleArray {
+		roleOut = roleOut + ", " + role
+	}
+	
+	return []byte(roleOut), nil	
 }
 
 

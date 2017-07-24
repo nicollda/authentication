@@ -64,12 +64,12 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 	}	
 	
 	
-	_, err = t.bl.registerUser("David", "Password1", "[\"Button3\",\"Button4\"]")
+	_, err = t.bl.registerUser("David", "Password1", "[\"r1\",\"r2\"]")
 	if err != nil {
 		return nil, err
 	}
 	
-	_, err = t.bl.registerUser("Jon", "Password1", "[\"Button5\",\"Button6\"]")
+	_, err = t.bl.registerUser("Jon", "Password1", "[\"r3\",\"r4\"]")
 	if err != nil {
 		return nil, err
 	}
