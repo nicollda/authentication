@@ -50,8 +50,8 @@ func (t *ChaincodeBusinessLayer) initObjects(stub shim.ChaincodeStubInterface) e
 	
 	
 	//initialize our repositories
-	t.userRep.init(stub)
 	t.roleRep.init(stub)
+	t.userRep.init(stub)
 	
 	return nil
 }
@@ -157,7 +157,7 @@ func (t *ChaincodeBusinessLayer) authenticate(userID string, password string) ([
 	
 	
 	if bytes.Equal([]byte(user.Password), Password) {
-		return t.getRoles(user)
+		return user.getRoles(t.roleRep)
 	} else {
 		return nil, nil
 	}

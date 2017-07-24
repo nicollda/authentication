@@ -1,9 +1,10 @@
 package main
 
 import (
-//	"errors"
+	"errors"
 //	"fmt"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
+	"encoding/json"
 )
 
 
@@ -92,19 +93,6 @@ func (self *UserRepository) deleteUser(userID string) error {
 	
 	return self.LinkedList.del(userID)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -216,6 +204,33 @@ func (self *User) init(userID string, password string, roles string, status stri
 	return nil
 }
 
+func (self *User) getRoles(roleRep RoleRepository) ([]byte, error) {
+	var roleArray []string
+	var roleOut string
+
+	rolejson := self.Roles
+	roleOut = ""
+
+	err := json.Unmarshal([]byte(rolejson), &roleArray)
+	if err != nil {
+		return nil, errors.New("Failed to get state")
+	}
+
+	for _, roleID := range roleArray {
+		role, err := roleRep.getRole(roleID)
+		if err != nil {
+			return nil, errors.New("Failed to get state")
+		}
+
+		if roleOut == "" {
+			roleOut = "\"" + role.Name + "\""
+		} else {
+			roleOut = roleOut + ", \"" + role.Name + "\""
+		}
+	}
+
+	return []byte("[" + roleOut + "]"), nil
+}
 
 //********************************
 //         Role
