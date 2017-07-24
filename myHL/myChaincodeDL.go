@@ -95,6 +95,107 @@ func (self *UserRepository) deleteUser(userID string) error {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+//********************************
+//         Role Repository
+//********************************
+
+type RoleRepository struct {
+	LinkedList ChainLinkedList
+}
+
+
+
+func (self *RoleRepository) init(stub shim.ChaincodeStubInterface) error {
+	
+	return self.LinkedList.init(stub, roleIndex)
+}
+
+
+
+func (self *RoleRepository) newRole(roleID string, name string, status string) (string, error) {
+	
+	
+	//todo:  swtich to role elements
+	var role Role
+	role.init(roleID, name, status)
+	
+	key, err := self.LinkedList.put(roleID, role)
+	if err != nil {
+		return "", err
+	}
+	
+	/*
+	//debug code
+	user, err = self.getUser(userID)
+	if err != nil {
+		return "", err
+	}
+	
+	curOutByteA,err := self.LinkedList.stub.GetState("currentOutput")
+	outByteA := []byte(string(curOutByteA) + ":::debug for userID " + user.UserID)
+	err = self.LinkedList.stub.PutState("currentOutput", outByteA)
+	*/
+	
+	return key, nil
+}
+
+
+
+func (self *RoleRepository) getFirstRole() (Role, error) {
+	var role Role
+	
+	err := self.LinkedList.getFirst(&role)
+	return role, err
+}
+
+
+
+func (self *RoleRepository) getNextRole() (Role, error) {
+	var role Role
+	
+	err := self.LinkedList.getNext(&role)
+	return role, err
+}
+
+
+
+func (self *RoleRepository) getRole(roleId string) (Role, error) {
+	var role Role
+	var err error
+	
+	err = self.LinkedList.get(roleId, &role)
+
+	return role, err
+}
+
+
+
+func (self *RoleRepository) updateRole(role Role) (string, error) {
+
+	return self.LinkedList.put(role.RoleID, role)
+}
+
+
+
+func (self *RoleRepository) deleteRole(roleID string) error {
+	
+	return self.LinkedList.del(roleID)
+}
+
+
 //********************************
 //         User
 //********************************
@@ -106,14 +207,6 @@ type User struct {
 	Roles		string	`json:"roles"`
 }
 
-type Role struct {
-	RoleID string `json:"roleID"`
-	Status string `json:"status"`
-	Name string `json:"name"`
-}
-
-
-
 func (self *User) init(userID string, password string, roles string, status string) error {
 	self.UserID = userID
 	self.Status = status
@@ -122,6 +215,19 @@ func (self *User) init(userID string, password string, roles string, status stri
 
 	return nil
 }
+
+
+//********************************
+//         Role
+//********************************
+
+
+type Role struct {
+	RoleID string `json:"roleID"`
+	Status string `json:"status"`
+	Name string `json:"name"`
+}
+
 
 func (self *Role) init(roleID string, status string, name string) error {
 	self.RoleID = roleID

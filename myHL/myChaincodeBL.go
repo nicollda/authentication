@@ -35,7 +35,7 @@ import (
 
 const separator = 		"."
 const userIndex =		"UserIndex" + separator
-
+const roleIndex =		"RoleIndex" + separator
 
 type ChaincodeBusinessLayer struct {
 	userRep			UserRepository 
